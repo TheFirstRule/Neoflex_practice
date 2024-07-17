@@ -14,3 +14,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  liquibase:
+    change-log: changelogs/changelog-master.yaml
+  springfox:
+    documentation:
+      swagger-ui:
+        base-url: /api
