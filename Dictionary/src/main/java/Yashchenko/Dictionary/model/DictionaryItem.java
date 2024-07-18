@@ -10,7 +10,6 @@ import java.util.UUID;
 @Table(name = "dictionary")
 public class DictionaryItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(unique = true)
     private UUID id;
     private String code;

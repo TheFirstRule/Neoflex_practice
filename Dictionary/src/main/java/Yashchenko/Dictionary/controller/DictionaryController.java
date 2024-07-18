@@ -30,7 +30,7 @@ public class DictionaryController {
     @Operation(
             summary = "Добавление строки в таблицу"
     )
-    @PostMapping("save_item")
+    @PostMapping
     public String saveItem(@RequestBody DictionaryItem item){
         service.saveItem(item);
         return "Item was added successfully!";
@@ -47,7 +47,7 @@ public class DictionaryController {
     @Operation(
             summary = "Обновление строки в таблице"
     )
-    @PutMapping("update_item")
+    @PutMapping
     public DictionaryItem updateItem(@RequestBody DictionaryItem item) {
         return service.updateItem(item);
     }
@@ -55,7 +55,7 @@ public class DictionaryController {
     @Operation(
             summary = "Удаление строки из таблицы"
     )
-    @DeleteMapping("delete_item/{id}")
+    @DeleteMapping("/{id}")
     public void deleteItem(@PathVariable UUID id) {
         service.deleteItem(id);
     }
