@@ -1,4 +1,0 @@
-databaseChangeLog:
-  - include:
-      file: changelogs/chLogs/v1.yml
-      relativeToChangelogFile: true
