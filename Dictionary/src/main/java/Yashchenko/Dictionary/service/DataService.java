@@ -9,6 +9,6 @@ public interface DataService {
     List<DataItem> getAllData();
     DataItem getDataById(UUID id);
     DataItem createData(DataItem data);
-    DataItem updateData(UUID id, DataItem dataDetails);
+    void updateData(UUID id, DataItem dataDetails);
     void deleteData(UUID id);
 }

@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface ItemRepository extends JpaRepository<DictionaryItem, String> {
+public interface ItemRepository extends JpaRepository<DictionaryItem, UUID> {
 
     void deleteById(UUID id);
     DictionaryItem findItemById(UUID id);

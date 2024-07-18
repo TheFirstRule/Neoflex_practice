@@ -1,10 +1,14 @@
 package Yashchenko.Dictionary.controller;
 
+import Yashchenko.Dictionary.exceptions.ItemNotFoundException;
 import Yashchenko.Dictionary.model.DataItem;
+import Yashchenko.Dictionary.model.DictionaryItem;
 import Yashchenko.Dictionary.service.DataService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,8 +34,15 @@ public class DataController {
             summary = "Вывод определенной строки по ID"
     )
     @GetMapping("/{id}")
-    public DataItem getDataById(@PathVariable UUID id) {
-        return dataService.getDataById(id);
+    public ResponseEntity<DataItem> getDataById(@PathVariable UUID id) {
+        try {
+            DataItem item = dataService.getDataById(id);
+            return ResponseEntity.ok(item);
+        } catch (ItemNotFoundException ex) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
     }
 
     @Operation(
@@ -46,15 +57,36 @@ public class DataController {
             summary = "Обновление строки в таблице"
     )
     @PutMapping("/{id}")
-    public DataItem updateData(@PathVariable UUID id, @RequestBody DataItem dataDetails) {
-        return dataService.updateData(id, dataDetails);
+    public ResponseEntity<DataItem> updateData(@PathVariable UUID id, @RequestBody DataItem data) {
+        try {
+            DataItem existingData = dataService.getDataById(id);
+            existingData.setDictionary(data.getDictionary());
+            existingData.setCode(data.getCode());
+            existingData.setValue(data.getValue());
+            dataService.updateData(existingData.getId(), existingData);
+            return ResponseEntity.ok(existingData);
+        } catch (ItemNotFoundException ex) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
     }
 
     @Operation(
             summary = "Удаление строки из таблицы"
     )
     @DeleteMapping("/{id}")
-    public void deleteData(@PathVariable UUID id) {
-        dataService.deleteData(id);
+    public ResponseEntity deleteItem(@PathVariable UUID id) {
+        try
+        {
+            dataService.deleteData(id);
+            return ResponseEntity.ok().build();
+        }
+        catch (ItemNotFoundException ex)
+        {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(ex.getMessage());
+        }
     }
 }

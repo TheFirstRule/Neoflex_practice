@@ -11,6 +11,6 @@ public interface DictionaryService {
     List<DictionaryItem> findAllItems();
     DictionaryItem saveItem(DictionaryItem item);
     DictionaryItem findById(UUID id);
-    DictionaryItem updateItem(DictionaryItem item);
+    void updateItem(DictionaryItem item);
     void deleteItem(UUID id);
 }
